@@ -1,0 +1,50 @@
+{
+  "kind": "collectionType",
+  "collectionName": "flights",
+  "info": {
+    "singularName": "flight",
+    "pluralName": "flights",
+    "displayName": "Flight"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "AirlineName": {
+      "type": "string"
+    },
+    "Flightcode": {
+      "type": "string"
+    },
+    "Departure": {
+      "type": "string"
+    },
+    "Destination": {
+      "type": "string"
+    },
+    "Price": {
+      "type": "biginteger"
+    },
+    "Duration": {
+      "type": "string"
+    },
+    "Image": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "Description": {
+      "type": "blocks"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "AirlineName"
+    }
+  }
+}

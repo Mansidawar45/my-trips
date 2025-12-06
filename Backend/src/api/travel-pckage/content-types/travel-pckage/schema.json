@@ -1,0 +1,14 @@
+{
+  "kind": "collectionType",
+  "collectionName": "travel_pckages",
+  "info": {
+    "singularName": "travel-pckage",
+    "pluralName": "travel-pckages",
+    "displayName": "TravelPackage"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {}
+}

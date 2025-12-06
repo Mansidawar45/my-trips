@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_shared_galleryimages",
+  "info": {
+    "displayName": "Galleryimage"
+  },
+  "options": {},
+  "attributes": {
+    "Caption": {
+      "type": "string"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    }
+  },
+  "config": {}
+}

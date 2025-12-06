@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_shared_amenities",
+  "info": {
+    "displayName": "Amenity"
+  },
+  "options": {},
+  "attributes": {
+    "Name": {
+      "type": "string"
+    },
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    }
+  },
+  "config": {}
+}

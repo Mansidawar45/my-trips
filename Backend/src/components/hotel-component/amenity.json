@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_hotel_component_amenities",
+  "info": {
+    "displayName": "Amenity",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "Name": {
+      "type": "string"
+    },
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    }
+  },
+  "config": {}
+}

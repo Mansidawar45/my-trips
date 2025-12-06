@@ -1,0 +1,50 @@
+{
+  "kind": "collectionType",
+  "collectionName": "buses",
+  "info": {
+    "singularName": "bus",
+    "pluralName": "buses",
+    "displayName": "Bus"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "BusName": {
+      "type": "string"
+    },
+    "Bustype": {
+      "type": "string"
+    },
+    "From": {
+      "type": "string"
+    },
+    "To": {
+      "type": "string"
+    },
+    "Price": {
+      "type": "biginteger"
+    },
+    "Duration": {
+      "type": "string"
+    },
+    "Image": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "BusName"
+    },
+    "Description": {
+      "type": "string"
+    }
+  }
+}

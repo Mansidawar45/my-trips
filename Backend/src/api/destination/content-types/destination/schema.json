@@ -1,0 +1,96 @@
+{
+  "kind": "collectionType",
+  "collectionName": "destinations",
+  "info": {
+    "singularName": "destination",
+    "pluralName": "destinations",
+    "displayName": "Destinations"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "Title"
+    },
+    "shortDescription": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "blocks"
+    },
+    "Country": {
+      "type": "string"
+    },
+    "State": {
+      "type": "string"
+    },
+    "bestTimeToVisit": {
+      "type": "string"
+    },
+    "averageBudget": {
+      "type": "integer"
+    },
+    "coverimage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "bannerImage": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "hotels": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::hotel.hotel",
+      "mappedBy": "destination"
+    },
+    "activities": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::activity.activity",
+      "mappedBy": "destination"
+    },
+    "places": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::place.place",
+      "mappedBy": "destination"
+    },
+    "galleries": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::gallery.gallery",
+      "mappedBy": "destination"
+    },
+    "travel_guides": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::travel-guide.travel-guide",
+      "mappedBy": "destination"
+    },
+    "reviews": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::review.review",
+      "mappedBy": "destination"
+    }
+  }
+}
