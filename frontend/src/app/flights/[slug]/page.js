@@ -91,6 +91,7 @@
 // }
 
 import Link from "next/link";
+import { getApiUrl, getImageUrl } from "@/lib/api";
 
 // ======================================
 // 1️⃣ Generate all static slugs
@@ -98,26 +99,38 @@ import Link from "next/link";
 export async function generateStaticParams() {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337"}/api/flights?fields=slug`,
-      { cache: "force-cache" } // needed for static export
+      getApiUrl("/api/flights?fields=slug"),
+      { 
+        cache: "force-cache",
+        headers: {
+          'Accept': 'application/json',
+        }
+      }
     );
 
-    if (!res.ok) throw new Error("Failed to fetch flight slugs");
+    if (!res.ok) {
+      console.warn(`Failed to fetch flights for static generation: ${res.status}`);
+      return [{ slug: 'placeholder' }];
+    }
 
     const json = await res.json();
 
+    if (!json?.data || !Array.isArray(json.data)) {
+      console.warn('Invalid data format from API');
+      return [{ slug: 'placeholder' }];
+    }
+
     // Map all flight slugs
-    return json.data.map((flight) => ({
-      slug: flight.attributes.slug,
-    }));
+    const params = json.data
+      .filter(flight => flight?.attributes?.slug)
+      .map((flight) => ({
+        slug: flight.attributes.slug,
+      }));
+
+    return params.length > 0 ? params : [{ slug: 'placeholder' }];
   } catch (err) {
     console.error("Error generating static params:", err);
-
-    // Fallback: static slugs to allow export
-    return [
-      { slug: "flight-1" },
-      { slug: "flight-2" },
-    ];
+    return [{ slug: 'placeholder' }];
   }
 }
 
@@ -127,11 +140,19 @@ export async function generateStaticParams() {
 async function getSingleFlight(slug) {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337"}/api/flights?filters[slug][$eq]=${slug}&populate=*`,
-      { cache: "force-cache" } // needed for static export
+      getApiUrl(`/api/flights?filters[slug][$eq]=${slug}&populate=*`),
+      { 
+        cache: "force-cache",
+        headers: {
+          'Accept': 'application/json',
+        }
+      }
     );
 
-    if (!res.ok) return null;
+    if (!res.ok) {
+      console.error(`Failed to fetch flight: ${res.status}`);
+      return null;
+    }
 
     const json = await res.json();
     return json.data?.[0] ?? null;
@@ -151,18 +172,24 @@ export default async function SingleFlightPage({ params }) {
 
   if (!flight) {
     return (
-      <h1 className="text-center mt-20 text-3xl text-red-500">
-        Flight Not Found ❌
-      </h1>
+      <div className="max-w-5xl mx-auto p-6">
+        <Link
+          href="/flights"
+          className="text-blue-600 underline mb-4 inline-block"
+        >
+          ← Back to Flights
+        </Link>
+        <h1 className="text-center mt-20 text-3xl text-red-500">
+          Flight Not Found ❌
+        </h1>
+      </div>
     );
   }
 
   const f = flight.attributes;
 
   // IMAGE FIX
-  const imgUrl = f.Image?.data?.[0]?.attributes?.url
-    ? `${process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337"}${f.Image.data[0].attributes.url}`
-    : "/no-image.jpg";
+  const imgUrl = getImageUrl(f.Image?.data?.[0]?.attributes?.url);
 
   // DESCRIPTION FIX FOR STRAPI RICH TEXT
   const descriptionText =
@@ -187,7 +214,7 @@ export default async function SingleFlightPage({ params }) {
       <img
         src={imgUrl}
         className="w-full h-72 object-cover rounded-xl shadow-lg mb-6"
-        alt={f.AirlineName}
+        alt={f.AirlineName || 'Flight'}
       />
 
       <h1 className="text-4xl font-bold">{f.AirlineName}</h1>

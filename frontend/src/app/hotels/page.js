@@ -52,32 +52,73 @@
 //     </div>
 //   );
 //  }
-
-
 import Link from "next/link";
+import { getApiUrl, getImageUrl } from "@/lib/api";
 
 export async function generateStaticParams() {
-  // Fetch all entries from Strapi
-  const res = await fetch("http://localhost:1337/api/trips?fields=id", {
-    next: { revalidate: 60 }
-  });
-  const data = await res.json();
+  try {
+    // Fetch all entries from Strapi
+    const res = await fetch(getApiUrl("/api/trips?fields=id"), {
+      next: { revalidate: 60 },
+      headers: {
+        'Accept': 'application/json',
+      }
+    });
 
-  return data.data.map((trip) => ({
-    id: trip.id.toString(), // must be string
-  }));
+    if (!res.ok) {
+      console.warn('Failed to fetch trips for static generation');
+      return [];
+    }
+
+    const data = await res.json();
+
+    if (!data?.data || !Array.isArray(data.data)) {
+      return [];
+    }
+
+    return data.data.map((trip) => ({
+      id: trip.id.toString(), // must be string
+    }));
+  } catch (error) {
+    console.error('Error in generateStaticParams for hotels:', error);
+    return [];
+  }
 }
 
 async function getTrip(id) {
-  const res = await fetch(`http://localhost:1337/api/trips/${id}`, {
-    next: { revalidate: 60 },
-  });
-  return res.json();
+  try {
+    const res = await fetch(getApiUrl(`/api/trips/${id}`), {
+      next: { revalidate: 60 },
+      headers: {
+        'Accept': 'application/json',
+      }
+    });
+
+    if (!res.ok) {
+      return null;
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error('Error fetching trip:', error);
+    return null;
+  }
 }
 
 export default async function TripPage({ params }) {
   const { id } = params;
   const trip = await getTrip(id);
+
+  if (!trip || !trip.data) {
+    return (
+      <div>
+        <h1 className="text-center mt-10 text-2xl text-red-500">Trip Not Found</h1>
+        <Link href="/trips" className="block text-center text-blue-600 underline mt-4">
+          Back to Trips
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div>

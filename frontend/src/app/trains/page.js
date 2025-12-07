@@ -58,14 +58,28 @@
 // }
 
 import Link from "next/link";
+import { getApiUrl, getImageUrl } from "@/lib/api";
 
 async function getTrains() {
-  const res = await fetch("http://localhost:1337/api/trains?populate=Image", {
-    next: { revalidate: 0 },
-  });
+  try {
+    const res = await fetch(getApiUrl("/api/trains?populate=Image"), {
+      next: { revalidate: 0 },
+      headers: {
+        'Accept': 'application/json',
+      }
+    });
 
-  const data = await res.json();
-  return data?.data || [];   
+    if (!res.ok) {
+      console.error(`Failed to fetch trains: ${res.status}`);
+      return [];
+    }
+
+    const data = await res.json();
+    return data?.data || [];
+  } catch (error) {
+    console.error('Error fetching trains:', error);
+    return [];
+  }
 }
 
 export default async function TrainPage() {
@@ -76,8 +90,8 @@ export default async function TrainPage() {
       <p className="text-center mt-10 text-red-500 text-xl">
         No Trains Found
       </p>
-    );
-  }    
+    );    
+  }
 
   return (
     <div className="p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -87,9 +101,7 @@ export default async function TrainPage() {
           train?.Image?.[0]?.formats?.small?.url ||
           null;
 
-        const imgUrl = firstImage
-          ? `http://localhost:1337${firstImage}`
-          : "/placeholder.jpg";
+        const imgUrl = getImageUrl(firstImage);
 
         return (
           <Link
@@ -97,7 +109,7 @@ export default async function TrainPage() {
             href={`/trains/${train.slug}`}
             className="block border rounded-xl shadow hover:shadow-lg transition overflow-hidden"
           >
-            <img src={imgUrl} className="w-full h-48 object-cover" />
+            <img src={imgUrl} alt={train.TrainName || 'Train'} className="w-full h-48 object-cover" />
 
             <div className="p-4">
               <h2 className="text-lg font-bold">{train.TrainName}</h2>

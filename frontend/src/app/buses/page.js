@@ -94,14 +94,18 @@
 // }
 // app/buses/page.js
 import Link from "next/link";
+import { getApiUrl, getImageUrl } from "@/lib/api";
 
 export default async function BusPage() {
   let buses = [];
   let errorMsg = null;
 
   try {
-    const res = await fetch("http://localhost:1337/api/buses?populate=*", {
+    const res = await fetch(getApiUrl("/api/buses?populate=*"), {
       cache: "no-store",
+      headers: {
+        'Accept': 'application/json',
+      }
     });
 
     if (!res.ok) {
@@ -150,10 +154,7 @@ export default async function BusPage() {
           const safeSlug = b?.slug ?? bus?.id;
 
           // IMAGE handling
-          const imgUrl =
-            b?.Image?.length > 0
-              ? `http://localhost:1337${b.Image[0].url}`
-              : "/no-image.jpg";
+          const imgUrl = getImageUrl(b?.Image?.[0]?.url);
 
           return (
             <Link
