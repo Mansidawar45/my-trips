@@ -324,36 +324,74 @@
 // }
 
 import Link from "next/link";
+import { getApiUrl, getImageUrl } from "@/lib/api";
 
 // =======================================
 // 🚀 generateStaticParams (for SSG)
 // =======================================
 export async function generateStaticParams() {
-  const res = await fetch(
-    "http://localhost:1337/api/hotels?fields=slug",
-    { next: { revalidate: 60 } } // keeps SSG fresh, optional
-  );
+  try {
+    const res = await fetch(
+      getApiUrl("/api/hotels?fields=slug"),
+      { 
+        next: { revalidate: 60 },
+        headers: {
+          'Accept': 'application/json',
+        }
+      }
+    );
 
-  const data = await res.json();
+    if (!res.ok) {
+      console.warn(`Failed to fetch hotels for static generation: ${res.status}`);
+      return [{ slug: 'placeholder' }];
+    }
 
-  return data.data.map((item) => ({
-    slug: item.slug,
-  }));
+    const data = await res.json();
+
+    if (!data?.data || !Array.isArray(data.data)) {
+      console.warn('Invalid data format from API');
+      return [{ slug: 'placeholder' }];
+    }
+
+    const params = data.data
+      .filter(item => item?.slug)
+      .map((item) => ({
+        slug: item.slug,
+      }));
+
+    return params.length > 0 ? params : [{ slug: 'placeholder' }];
+  } catch (error) {
+    console.error('Error in generateStaticParams for hotels:', error);
+    return [{ slug: 'placeholder' }];
+  }
 }
 
 // =======================================
-// 🔥 Get a single hotel (your same function)
+// 🔥 Get a single hotel
 // =======================================
 async function getHotel(slug) {
-  const res = await fetch(
-    `http://localhost:1337/api/hotels?filters[slug][$eq]=${slug}&populate=*`,
-    { cache: "force-cache" } // required for static export
-  );
+  try {
+    const res = await fetch(
+      getApiUrl(`/api/hotels?filters[slug][$eq]=${slug}&populate=*`),
+      { 
+        cache: "force-cache",
+        headers: {
+          'Accept': 'application/json',
+        }
+      }
+    );
 
-  if (!res.ok) return null;
+    if (!res.ok) {
+      console.error(`Failed to fetch hotel: ${res.status}`);
+      return null;
+    }
 
-  const json = await res.json();
-  return json.data?.[0] ?? null;
+    const json = await res.json();
+    return json.data?.[0] ?? null;
+  } catch (error) {
+    console.error('Error fetching hotel:', error);
+    return null;
+  }
 }
 
 // =======================================
@@ -366,19 +404,21 @@ export default async function SingleHotelPage({ params }) {
 
   if (!hotel) {
     return (
-      <h1 className="text-center mt-10 text-2xl">
-        Hotel Not Found
-      </h1>
+      <div className="max-w-6xl mx-auto p-6">
+        <Link href="/hotels" className="text-blue-600 underline mb-4 inline-block">
+          ← Back to Hotels
+        </Link>
+        <h1 className="text-center mt-10 text-2xl">
+          Hotel Not Found
+        </h1>
+      </div>
     );
   }
 
   const h = hotel.attributes ?? hotel;
 
   // Image Fix for Strapi v4 structure
-  const mainImg =
-    h.Image?.data?.[0]?.attributes?.url
-      ? `http://localhost:1337${h.Image.data[0].attributes.url}`
-      : "/no-image.jpg";
+  const mainImg = getImageUrl(h.Image?.data?.[0]?.attributes?.url || h.Image?.[0]?.url);
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -395,7 +435,7 @@ export default async function SingleHotelPage({ params }) {
 
       <img
         src={mainImg}
-        alt={h.Name}
+        alt={h.Name || 'Hotel'}
         className="w-full h-80 object-cover rounded-2xl shadow-lg"
       />
 

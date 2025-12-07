@@ -1,31 +1,34 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-   output: "export",  // ⬅ REQUIRED for static export
- 
+  output: "export", // Required for static export (S3 + CloudFront)
+
   images: {
-    // Allow Strapi images from local backend
-    domains: ['localhost'],
-     unoptimized: true,
+    unoptimized: true, // Required for static export
+    
+    // Add your production Strapi domain here
+    domains: ['localhost', 'your-strapi-backend.com'],
 
-    // Optional: If you plan to deploy Strapi later, you can add your hosted domain too
-    // domains: ['localhost', 'your-strapi-domain.com'],
-
-    // Allow HTTP (not only HTTPS) during local development
-   remotePatterns: [
-  {
-    protocol: 'http',
-    hostname: 'localhost',
-    port: '1337',
-    pathname: '/uploads/**',
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '1337',
+        pathname: '/uploads/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'your-strapi-backend.com',
+        pathname: '/uploads/**',
+      },
+    ],
   },
-],
 
-  },
-
-  // Optional: Enable strict mode and React server components (recommended)
+  // Optional: Enable strict mode
   reactStrictMode: true,
-  experimental: {
-    appDir: true,
+
+  // Environment variables available to the browser
+  env: {
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337',
   },
 };
 

@@ -83,21 +83,47 @@
 // }
 
 import Link from "next/link";
+import { getApiUrl } from "@/lib/api";
 
 // =======================================
 // 🚀 generateStaticParams (for SSG)
 // =======================================
 export async function generateStaticParams() {
-  const res = await fetch(
-    "http://localhost:1337/api/trains?fields=slug",
-    { next: { revalidate: 60 } }
-  );
+  try {
+    const res = await fetch(
+      getApiUrl("/api/trains?fields=slug"),
+      { 
+        next: { revalidate: 60 },
+        headers: {
+          'Accept': 'application/json',
+        }
+      }
+    );
 
-  const data = await res.json();
+    if (!res.ok) {
+      console.warn(`Failed to fetch trains for static generation: ${res.status}`);
+      // Return a placeholder to satisfy Next.js requirement
+      return [{ slug: 'placeholder' }];
+    }
 
-  return data.data.map((item) => ({
-    slug: item.slug,   // MUST be returned as string
-  }));
+    const data = await res.json();
+
+    if (!data?.data || !Array.isArray(data.data)) {
+      console.warn('Invalid data format from API');
+      return [{ slug: 'placeholder' }];
+    }
+
+    const params = data.data.map((item) => ({
+      slug: item.slug || item.attributes?.slug,
+    })).filter(item => item.slug);
+
+    // If no data, return placeholder to satisfy Next.js
+    return params.length > 0 ? params : [{ slug: 'placeholder' }];
+  } catch (error) {
+    console.error('Error in generateStaticParams:', error);
+    // Return a placeholder to satisfy Next.js requirement
+    return [{ slug: 'placeholder' }];
+  }
 }
 
 // =======================================
@@ -106,37 +132,62 @@ export async function generateStaticParams() {
 export default async function SingleTrainPage({ params }) {
   const { slug } = params;
 
-  // Fetch trains with images
-  const res = await fetch(
-    `http://localhost:1337/api/trains?populate=Image`,
-    { cache: "no-store" }
-  );
-
-  const data = await res.json();
-  const trains = data?.data || [];
-
-  // ❗ FIX: Strapi returns attributes inside attributes
-  const train = trains.find((item) => item.attributes?.slug === slug);
-
-  if (!train) {
-    return (
-      <h1 className="text-center mt-10 text-2xl">
-        Train Not Found
-      </h1>
+  try {
+    // Fetch trains with images
+    const res = await fetch(
+      getApiUrl("/api/trains?populate=Image"),
+      { 
+        cache: "no-store",
+        headers: {
+          'Accept': 'application/json',
+        }
+      }
     );
-  }
 
-  const t = train.attributes;
+    if (!res.ok) {
+      console.error(`Failed to fetch trains: ${res.status}`);
+      return (
+        <div className="max-w-5xl mx-auto p-6">
+          <Link href="/trains" className="text-blue-600 underline mb-4 inline-block">
+            ← Back to Trains
+          </Link>
+          <h1 className="text-center mt-10 text-2xl text-red-500">
+            Unable to load train data. Please try again later.
+          </h1>
+        </div>
+      );
+    }
 
-  // Image Fix
-  const firstImage =
-    t.Image?.data?.[0]?.attributes?.url ||
-    t.Image?.data?.[0]?.attributes?.formats?.small?.url ||
-    null;
+    const data = await res.json();
+    const trains = data?.data || [];
 
-  const imgUrl = firstImage
-    ? `http://localhost:1337${firstImage}`
-    : "/placeholder.jpg";
+    // ❗ FIX: Strapi returns attributes inside attributes
+    const train = trains.find((item) => item.attributes?.slug === slug);
+
+    if (!train) {
+      return (
+        <div className="max-w-5xl mx-auto p-6">
+          <Link href="/trains" className="text-blue-600 underline mb-4 inline-block">
+            ← Back to Trains
+          </Link>
+          <h1 className="text-center mt-10 text-2xl">
+            Train Not Found
+          </h1>
+        </div>
+      );
+    }
+
+    const t = train.attributes;
+
+    // Image Fix
+    const firstImage =
+      t.Image?.data?.[0]?.attributes?.url ||
+      t.Image?.data?.[0]?.attributes?.formats?.small?.url ||
+      null;
+
+    const imgUrl = firstImage
+      ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337'}${firstImage}`
+      : "/placeholder.jpg";
 
   return (
     <div className="max-w-5xl mx-auto p-6">
@@ -183,4 +234,17 @@ export default async function SingleTrainPage({ params }) {
       </div>
     </div>
   );
+  } catch (error) {
+    console.error('Error loading train:', error);
+    return (
+      <div className="max-w-5xl mx-auto p-6">
+        <Link href="/trains" className="text-blue-600 underline mb-4 inline-block">
+          ← Back to Trains
+        </Link>
+        <h1 className="text-center mt-10 text-2xl text-red-500">
+          An error occurred while loading train data.
+        </h1>
+      </div>
+    );
+  }
 }

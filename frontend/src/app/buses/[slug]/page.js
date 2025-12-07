@@ -288,29 +288,65 @@
 //   );
 // } 
 import Link from "next/link";
+import { getApiUrl, getImageUrl } from "@/lib/api";
 
 // 1️⃣ Generate static params
 export async function generateStaticParams() {
-  const res = await fetch("http://localhost:1337/api/buses?fields=slug", {
-    cache: "force-cache",
-  });
+  try {
+    const res = await fetch(getApiUrl("/api/buses?fields=slug"), {
+      cache: "force-cache",
+      headers: {
+        'Accept': 'application/json',
+      }
+    });
 
-  const json = await res.json();
+    if (!res.ok) {
+      console.warn(`Failed to fetch buses for static generation: ${res.status}`);
+      return [{ slug: 'placeholder' }];
+    }
 
-  return json.data
-    .filter(bus => bus?.attributes?.slug)
-    .map(bus => ({ slug: bus.attributes.slug }));
+    const json = await res.json();
+
+    if (!json?.data || !Array.isArray(json.data)) {
+      console.warn('Invalid data format from API');
+      return [{ slug: 'placeholder' }];
+    }
+
+    const params = json.data
+      .filter(bus => bus?.attributes?.slug)
+      .map(bus => ({ slug: bus.attributes.slug }));
+
+    return params.length > 0 ? params : [{ slug: 'placeholder' }];
+  } catch (error) {
+    console.error('Error in generateStaticParams for buses:', error);
+    return [{ slug: 'placeholder' }];
+  }
 }
 
 // 2️⃣ Fetch single bus
 async function getSingleBus(slug) {
-  const res = await fetch(
-    `http://localhost:1337/api/buses?filters[slug][$eq]=${slug}&populate=*`,
-    { cache: "force-cache" }
-  );
+  try {
+    const res = await fetch(
+      getApiUrl(`/api/buses?filters[slug][$eq]=${slug}&populate=*`),
+      { 
+        cache: "force-cache",
+        headers: {
+          'Accept': 'application/json',
+        }
+      }
+    );
 
-  const json = await res.json();
-  return json.data?.[0] ?? null;
+    if (!res.ok) {
+      console.error(`Failed to fetch bus: ${res.status}`);
+      return null;
+    }
+
+    const json = await res.json();
+    return json.data?.[0] ?? null;
+  } catch (error) {
+    console.error('Error fetching single bus:', error);
+    return null;
+  }
 }
 
 // 3️⃣ Page component
@@ -337,10 +373,7 @@ export default async function BusDetailsPage({ params }) {
 
   const b = bus.attributes;
 
-  const imgUrl =
-    b?.Image?.[0]?.url
-      ? `http://localhost:1337${b.Image[0].url}`
-      : "/no-image.jpg";
+  const imgUrl = getImageUrl(b?.Image?.[0]?.url);
 
   return (
     <div className="max-w-3xl mx-auto p-6">
@@ -352,7 +385,7 @@ export default async function BusDetailsPage({ params }) {
 
       <img
         src={imgUrl}
-        alt={b.BusName}
+        alt={b.BusName || 'Bus'}
         className="w-full h-64 object-cover rounded-xl shadow mb-6"
       />
 
