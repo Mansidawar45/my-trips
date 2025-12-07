@@ -166,7 +166,7 @@ async function getSingleFlight(slug) {
 // 3️⃣ Page Component
 // ======================================
 export default async function SingleFlightPage({ params }) {
-  const { slug } = params;
+  const { slug } = await params;  // ✅ Must await params in Next.js 15+
 
   const flight = await getSingleFlight(slug);
 
@@ -186,10 +186,10 @@ export default async function SingleFlightPage({ params }) {
     );
   }
 
-  const f = flight.attributes;
+  const f = flight;
 
   // IMAGE FIX
-  const imgUrl = getImageUrl(f.Image?.data?.[0]?.attributes?.url);
+  const imgUrl = getImageUrl(f.Image?.[0]?.url);
 
   // DESCRIPTION FIX FOR STRAPI RICH TEXT
   const descriptionText =
