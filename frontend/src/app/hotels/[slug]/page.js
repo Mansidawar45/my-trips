@@ -398,7 +398,7 @@ async function getHotel(slug) {
 // 🔥 Page Component
 // =======================================
 export default async function SingleHotelPage({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
 
   const hotel = await getHotel(slug);
 
@@ -439,7 +439,90 @@ export default async function SingleHotelPage({ params }) {
         className="w-full h-80 object-cover rounded-2xl shadow-lg"
       />
 
-      {/* Your other sections below */}
+      {/* Price & Info Box */}
+      <div className="bg-blue-50 p-5 rounded-2xl mt-6 shadow-sm border">
+        <h2 className="text-2xl font-bold text-blue-800">
+          ₹ {h.PricePerNight ?? "N/A"} / night
+        </h2>
+        <p className="text-gray-600 mt-1">
+          Includes free WiFi, parking & room service
+        </p>
+
+        {h.LocationMapLink && (
+          <a
+            href={h.LocationMapLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block w-max px-5 py-2 bg-blue-600 text-white rounded-xl mt-4 hover:bg-blue-700 transition"
+          >
+            📍 View Location on Map
+          </a>
+        )}
+      </div>
+
+      {/* Description */}
+      <div className="mt-8">
+        <h3 className="text-2xl font-semibold mb-3">📘 About This Hotel</h3>
+        <div className="text-gray-700 leading-relaxed text-lg">
+          {Array.isArray(h.Description) && h.Description.length > 0 ? (
+            h.Description.map((block, i) => {
+              const paragraph = (block.children || [])
+                .map((child) => child?.text ?? "")
+                .join("");
+              return (
+                <p key={i} className="mb-3 whitespace-pre-line">
+                  {paragraph}
+                </p>
+              );
+            })
+          ) : (
+            <p>{h.Description || "No description available."}</p>
+          )}
+        </div>
+      </div>
+
+      {/* Amenities Section */}
+      <div className="mt-10">
+        <h3 className="text-2xl font-semibold mb-4">🏨 Amenities</h3>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-gray-700">
+          <div>✔ Free WiFi</div>
+          <div>✔ Room Service</div>
+          <div>✔ Mountain View</div>
+          <div>✔ Geyser/Heater</div>
+          <div>✔ Parking</div>
+          <div>✔ Power Backup</div>
+        </div>
+      </div>
+
+      {/* Photo Gallery */}
+      {((h.Image?.data && Array.isArray(h.Image.data) && h.Image.data.length > 1) ||
+        (Array.isArray(h.Image) && h.Image.length > 1)) && (
+        <div className="mt-10">
+          <h3 className="text-2xl font-semibold mb-4">🖼 Photo Gallery</h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {(h.Image?.data || h.Image)?.map((img, index) => {
+              const imageUrl = getImageUrl(
+                img?.attributes?.url || img?.url
+              );
+              return (
+                <img
+                  key={index}
+                  src={imageUrl}
+                  alt={`Hotel Image ${index + 1}`}
+                  className="rounded-xl object-cover h-40 w-full shadow"
+                />
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Book Button */}
+      <div className="text-center mt-10">
+        <button className="px-8 py-3 bg-green-600 text-white font-bold rounded-xl text-lg hover:bg-green-700 transition">
+          Book Now
+        </button>
+      </div>
     </div>
   );
 }

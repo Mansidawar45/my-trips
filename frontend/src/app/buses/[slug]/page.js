@@ -351,7 +351,7 @@ async function getSingleBus(slug) {
 
 // 3️⃣ Page component
 export default async function BusDetailsPage({ params }) {
-  const slug = params?.slug;
+  const { slug } = await params;  // ✅ Must await params in Next.js 15+
 
   if (!slug) {
     return (
@@ -363,7 +363,7 @@ export default async function BusDetailsPage({ params }) {
 
   const bus = await getSingleBus(slug);
 
-  if (!bus?.attributes) {
+  if (!bus) {
     return (
       <div className="p-10 text-center text-red-500 text-xl">
         ❌ Bus not found!
@@ -371,7 +371,7 @@ export default async function BusDetailsPage({ params }) {
     );
   }
 
-  const b = bus.attributes;
+  const b = bus;
 
   const imgUrl = getImageUrl(b?.Image?.[0]?.url);
 

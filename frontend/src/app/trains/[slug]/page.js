@@ -130,14 +130,14 @@ export async function generateStaticParams() {
 // 🚀 Page Component
 // =======================================
 export default async function SingleTrainPage({ params }) {
-  const { slug } = params;
+  const { slug } = await params;  // ✅ Must await params in Next.js 15+
 
   try {
     // Fetch trains with images
     const res = await fetch(
       getApiUrl("/api/trains?populate=Image"),
       { 
-        cache: "no-store",
+        cache: "force-cache", // Required for static export
         headers: {
           'Accept': 'application/json',
         }
@@ -162,7 +162,7 @@ export default async function SingleTrainPage({ params }) {
     const trains = data?.data || [];
 
     // ❗ FIX: Strapi returns attributes inside attributes
-    const train = trains.find((item) => item.attributes?.slug === slug);
+    const train = trains.find((item) => item?.slug === slug);
 
     if (!train) {
       return (
@@ -177,11 +177,11 @@ export default async function SingleTrainPage({ params }) {
       );
     }
 
-    const t = train.attributes;
+    const t = train;
 
     // Image Fix
     const firstImage =
-      t.Image?.data?.[0]?.attributes?.url ||
+      t.Image?.[0]?.url ||
       t.Image?.data?.[0]?.attributes?.formats?.small?.url ||
       null;
 
