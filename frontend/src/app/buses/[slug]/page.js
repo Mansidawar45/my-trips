@@ -335,13 +335,14 @@ async function getSingleBus(slug) {
         }
       }
     );
-
+       
     if (!res.ok) {
       console.error(`Failed to fetch bus: ${res.status}`);
       return null;
     }
 
     const json = await res.json();
+    console.log(json)
     return json.data?.[0] ?? null;
   } catch (error) {
     console.error('Error fetching single bus:', error);

@@ -387,6 +387,7 @@ async function getHotel(slug) {
     }
 
     const json = await res.json();
+    console.log(json)
     return json.data?.[0] ?? null;
   } catch (error) {
     console.error('Error fetching hotel:', error);
