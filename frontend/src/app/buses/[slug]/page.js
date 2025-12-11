@@ -93,6 +93,9 @@
 //   );
 // }
 
+
+
+
 // ✅
 // import Link from "next/link";
 
@@ -180,6 +183,9 @@
 //     </div>
 //   );
 // }
+
+
+
 // import Link from "next/link";
 
 // // ======================================
@@ -287,6 +293,9 @@
 //     </div>
 //   );
 // } 
+
+
+
 import Link from "next/link";
 import { getApiUrl, getImageUrl } from "@/lib/api";
 
@@ -294,7 +303,7 @@ import { getApiUrl, getImageUrl } from "@/lib/api";
 export async function generateStaticParams() {
   try {
     const res = await fetch(getApiUrl("/api/buses?fields=slug"), {
-      cache: "force-cache",
+      // cache: "force-cache",
       headers: {
         'Accept': 'application/json',
       }

@@ -102,7 +102,7 @@ export default async function BusPage() {
 
   try {
     const res = await fetch(getApiUrl("/api/buses?populate=*"), {
-      cache: "no-store",
+      cache: "force-cache",
       headers: {
         'Accept': 'application/json',
       }

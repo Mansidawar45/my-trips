@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // output: "export", // Required for static export (S3 + CloudFront)
+  output: "export", // Required for static export (S3 + CloudFront)
 
   images: {
     unoptimized: true, // Required for static export

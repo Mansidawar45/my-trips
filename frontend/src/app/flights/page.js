@@ -82,7 +82,7 @@ import { getApiUrl, getImageUrl } from "@/lib/api";
 export default async function flightsPage() {
   try {
     const res = await fetch(getApiUrl("/api/flights?populate=*"), {
-      cache: "no-store",
+      cache: "force-cache",
       headers: {
         'Accept': 'application/json',
       }
@@ -94,6 +94,7 @@ export default async function flightsPage() {
 
     const result = await res.json();
     const flights = result.data || [];
+    console.log(JSON.stringify(flights))
 
     if (flights.length === 0) {
       return (
