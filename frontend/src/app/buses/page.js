@@ -87,7 +87,7 @@
 //               )}
 //             </div>
 //           );
-//         })}
+//         })}   
 //       </div>
 //     </div>
 //   );
@@ -167,13 +167,13 @@ export default async function BusPage() {
                 alt={b?.BusName ?? "Bus"}
                 className="rounded-lg mb-4 h-40 w-full object-cover"
               />
-
+                   
               <h2 className="text-xl font-bold">{b?.BusName ?? "Unnamed Bus"}</h2>
 
               <p className="text-gray-600 mt-1">🚌 Type: {b?.BusType ?? "-"}</p>
 
               <p className="text-gray-600 mt-1">
-                📍 {b?.From ?? "-"} → {b?.To ?? "-"}
+                📍 {b?.From ?? "-"} → {b?.To ?? "-"}  
               </p>
 
               <p className="text-gray-500 mt-1">⏱ Duration: {b?.Duration ?? "-"}</p>

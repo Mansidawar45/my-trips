@@ -93,7 +93,7 @@ export async function generateStaticParams() {
     const res = await fetch(
       getApiUrl("/api/trains?fields=slug"),
       { 
-        next: { revalidate: 60 },
+       cache: "force-cache",
         headers: {
           'Accept': 'application/json',
         }

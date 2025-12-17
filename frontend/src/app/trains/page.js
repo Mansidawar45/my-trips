@@ -63,7 +63,7 @@ import { getApiUrl, getImageUrl } from "@/lib/api";
 async function getTrains() {
   try {
     const res = await fetch(getApiUrl("/api/trains?populate=Image"), {
-      next: { revalidate: 0 },
+      cache: "force-cache",
       headers: {
         'Accept': 'application/json',
       }

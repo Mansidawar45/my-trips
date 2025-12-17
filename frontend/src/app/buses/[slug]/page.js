@@ -322,8 +322,8 @@ export async function generateStaticParams() {
     }
 
     const params = json.data
-      .filter(bus => bus?.attributes?.slug)
-      .map(bus => ({ slug: bus.attributes.slug }));
+      .filter(bus => bus?.slug)
+      .map(bus => ({ slug: bus.slug }));
 
     return params.length > 0 ? params : [{ slug: 'placeholder' }];
   } catch (error) {

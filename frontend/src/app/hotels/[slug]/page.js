@@ -292,12 +292,12 @@
 //     return (
 //       <h1 className="text-center mt-10 text-2xl">Hotel Not Found</h1>
 //     );
-//   }
+//   } 
 
 //   const h = hotel.attributes ?? hotel;
 
 //   const mainImg =
-//     h.Image?.length > 0
+//     h.Image?.length > 0 
 //       ? `http://localhost:1337${h.Image[0].url}`
 //       : "/no-image.jpg";
 
@@ -322,6 +322,8 @@
 //     </div>
 //   );
 // }
+
+
 
 import Link from "next/link";
 import { getApiUrl, getImageUrl } from "@/lib/api";
@@ -380,7 +382,7 @@ async function getHotel(slug) {
         }
       }
     );
-
+      
     if (!res.ok) {
       console.error(`Failed to fetch hotel: ${res.status}`);
       return null;

@@ -25,7 +25,7 @@ const nextConfig = {
 
   // Optional: Enable strict mode
   reactStrictMode: true,
-
+      trailingSlash: true,
   // Environment variables available to the browser
   env: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337',
