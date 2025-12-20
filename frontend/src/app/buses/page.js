@@ -4,7 +4,7 @@
 //   let errorMsg = null;
 
 //   try {
-//     const res = await fetch("http://localhost:1337/api/buses?populate=*", {
+//     const res = await fetch("http://56.228.1.142:1337/api/buses?populate=*", {
 //       cache: "no-store",
 //     });
 
@@ -44,7 +44,7 @@
 //       {buses.length === 0 && !errorMsg && (
 //         <div className="p-6 bg-yellow-50 text-yellow-800 rounded">
 //           No buses found. Check your Strapi Content Manager or visit{" "}
-//           <code>http://localhost:1337/api/buses?populate=*</code> to inspect the JSON.
+//           <code>http://56.228.1.142:1337/api/buses?populate=*</code> to inspect the JSON.
 //         </div>
 //       )}
 
@@ -56,7 +56,7 @@
 //           // Image handling (Image is an array in your JSON)
 //           const imgUrl =
 //             b?.Image?.length > 0
-//               ? `http://localhost:1337${b.Image[0].url}`
+//               ? `http://56.228.1.142:1337${b.Image[0].url}`
 //               : "/no-image.jpg";
 
 //           return (
@@ -140,7 +140,7 @@ export default async function BusPage() {
       {buses.length === 0 && !errorMsg && (
         <div className="p-6 bg-yellow-50 text-yellow-800 rounded">
           No buses found. Check your Strapi Content Manager or visit{" "}
-          <code>http://localhost:1337/api/buses?populate=*</code>.
+          <code>http://56.228.1.142:1337/api/buses?populate=*</code>.
         </div>
       )}
 

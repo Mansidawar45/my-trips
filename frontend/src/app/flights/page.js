@@ -1,5 +1,5 @@
 //  export default async function flightsPage() {
-//   const res = await fetch("http://localhost:1337/api/flights?populate=*", {
+//   const res = await fetch("http://56.228.1.142:1337/api/flights?populate=*", {
 //     cache: "no-store",
 //   });
 
@@ -32,7 +32,7 @@
 //           >
 //             {/* Image */}
 //             <img
-//               src={`http://localhost:1337${flight.Image[0].url}`}
+//               src={`http://56.228.1.142:1337${flight.Image[0].url}`}
 //               alt={flight.AirlineName}
 //               style={{
 //                 width: "100%",
@@ -110,7 +110,7 @@ export default async function flightsPage() {
       <div style={{ padding: "20px" }}>
         <h1 style={{ fontSize: "32px", fontWeight: "bold", marginBottom: "20px" }}>
           ✈️ Available Flights to Manali
-        </h1>
+        </h1>  
 
         <div
           style={{

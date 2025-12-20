@@ -1,4 +1,4 @@
-export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337';
+export const API_URL =   'http://56.228.1.142:1337';
 
 export function getApiUrl(path) {
   const cleanPath = path.startsWith('/') ? path : `/${path}`;

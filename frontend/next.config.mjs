@@ -28,7 +28,7 @@ const nextConfig = {
       trailingSlash: true,
   // Environment variables available to the browser
   env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337',
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://56.228.1.142:1337',
   },
 };
 

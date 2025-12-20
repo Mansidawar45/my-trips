@@ -4,7 +4,7 @@
 //   const { slug } =  await params;
 
 //   // Fetch all flights (no /slug endpoint)
-//   const res = await fetch("http://localhost:1337/api/flights?populate=*", {
+//   const res = await fetch("http://56.228.1.142:1337/api/flights?populate=*", {
 //     cache: "no-store",
 //   });
 
@@ -22,7 +22,7 @@
 
 //   const imgUrl =
 //     f.Image?.[0]?.url
-//       ? "http://localhost:1337" + f.Image[0].url
+//       ? "http://56.228.1.142:1337" + f.Image[0].url
 //       : "/no-image.jpg";
 
 //   // Rich text description fix

@@ -1,7 +1,7 @@
 // import Image from "next/image";
 
 // export async function generateStaticParams() {
-//   const res = await fetch("http://localhost:1337/api/destinations?populate=*");
+//   const res = await fetch("http://56.228.1.142:1337/api/destinations?populate=*");
 //   const data = await res.json();
 
 //   return data.data
@@ -15,7 +15,7 @@
 //   const { slug } = await params; // ✅ FIXED
 
 //   const res = await fetch(
-//     `http://localhost:1337/api/destinations?filters[slug][$eq]=${slug}&populate=*`,
+//     `http://56.228.1.142:1337/api/destinations?filters[slug][$eq]=${slug}&populate=*`,
 //     { cache: "no-store" }
 //   );
 //   const data = await res.json();
@@ -33,13 +33,13 @@
 
 //  const bannerImageUrl =
 //   d?.bannerImage && d.bannerImage.length > 0
-//     ? `http://localhost:1337${d.bannerImage[0].url}`
+//     ? `http://56.228.1.142:1337${d.bannerImage[0].url}`
 //     : "/no-image.jpg";
 
 
 //   const coverImage =
 //   d?.coverimage?.url
-//     ? `http://localhost:1337${d.coverimage.url}`
+//     ? `http://56.228.1.142:1337${d.coverimage.url}`
 //     : "/no-image.jpg";
 
 

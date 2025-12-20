@@ -3,7 +3,7 @@
 
 // export default async function HomePage() {
 //   try {
-//     const res = await axios.get("http://localhost:1337/api/destinations?populate=*");
+//     const res = await axios.get("http://56.228.1.142:1337/api/destinations?populate=*");
 //     const destinations = res.data.data; // array of objects
 
 //     console.log("Fetched destinations:", destinations); // ✅ Debug check

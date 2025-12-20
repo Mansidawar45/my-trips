@@ -2,7 +2,7 @@
 
 // export default async function SingleHotelPage({ params }) {
 //   const { slug } = await params;
-// const res = await fetch("http://localhost:1337/api/hotels?populate=*", {
+// const res = await fetch("http://56.228.1.142:1337/api/hotels?populate=*", {
 //     cache: "no-store",
 //   });
 
@@ -17,7 +17,7 @@
 //   // Main Image
 //   const mainImg =
 //     hotel.Image?.length > 0
-//       ? "http://localhost:1337" + hotel.Image[0].url
+//       ? "http://56.228.1.142:1337" + hotel.Image[0].url
 //       : "/no-image.jpg";
 
 //   return (
@@ -89,7 +89,7 @@
 //             {hotel.Image.map((img, index) => (
 //               <img
 //                 key={index}
-//                 src={`http://localhost:1337${img.url}`}
+//                 src={`http://56.228.1.142:1337${img.url}`}
 //                 className="rounded-xl object-cover h-40 w-full shadow"
 //                 alt={`Hotel Image ${index + 1}`}
 //               />
@@ -116,14 +116,14 @@
 
 //   // Fetch only 1 hotel using slug filter
 // //   const res = await fetch(
-// //     `http://localhost:1337/api/hotels?filters[slug][$eq]=${slug}&populate=*`,
+// //     `http://56.228.1.142:1337/api/hotels?filters[slug][$eq]=${slug}&populate=*`,
 // //     { cache: "no-store" }
 // //   );
 
 // //   const data = await res.json();
 // //   const hotel = data.data[0]; // STRAPI RETURNS AN ARRAY → get first item
 
-//  const res = await fetch("http://localhost:1337/api/hotels?populate=*", {
+//  const res = await fetch("http://56.228.1.142:1337/api/hotels?populate=*", {
 //     cache: "no-store",
 //   });
 
@@ -146,7 +146,7 @@
 //   // Main Image
 //   const mainImg =
 //     hotel.Image?.length > 0
-//       ? "http://localhost:1337" + hotel.Image[0].url
+//       ? "http://56.228.1.142:1337" + hotel.Image[0].url
 //       : "/no-image.jpg";
 
 //     return (
@@ -166,7 +166,7 @@
 //       <img
 //         src={
 //           hotel.Image?.length > 0
-//             ? `http://localhost:1337${hotel.Image[0].url}`
+//             ? `http://56.228.1.142:1337${hotel.Image[0].url}`
 //             : "/no-image.jpg"
 //         }
 //         alt={hotel.Name ?? "Hotel image"}
@@ -248,7 +248,7 @@
 //             {hotel.Image.map((img, index) => (
 //               <img
 //                 key={index}
-//                 src={`http://localhost:1337${img.url}`}
+//                 src={`http://56.228.1.142:1337${img.url}`}
 //                 className="rounded-xl object-cover h-40 w-full shadow"
 //                 alt={img.alternativeText ?? `Hotel Image ${index + 1}`}
 //               />
@@ -271,7 +271,7 @@
 
 // async function getHotel(slug) {
 //   const res = await fetch(
-//     `http://localhost:1337/api/hotels?filters[slug][$eq]=${slug}&populate=*`,
+//     `http://56.228.1.142:1337/api/hotels?filters[slug][$eq]=${slug}&populate=*`,
 //     {
 //       cache: "force-cache", // important for static export
 //     }
@@ -298,7 +298,7 @@
 
 //   const mainImg =
 //     h.Image?.length > 0 
-//       ? `http://localhost:1337${h.Image[0].url}`
+//       ? `http://56.228.1.142:1337${h.Image[0].url}`
 //       : "/no-image.jpg";
 
 //   return (

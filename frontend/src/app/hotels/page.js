@@ -3,7 +3,7 @@
 // import Link from "next/link";
 
 // export default async function hotelsPage() {
-//   const res = await fetch("http://localhost:1337/api/hotels?populate=*", {
+//   const res = await fetch("http://56.228.1.142:1337/api/hotels?populate=*", {
 //     cache: "no-store",
 //   });
 
@@ -19,7 +19,7 @@
 //         {hotels.map((hotel) => {
 //           const imgUrl =
 //             hotel.Image?.length > 0
-//               ? "http://localhost:1337" + hotel.Image[0].url
+//               ? "http://56.228.1.142:1337" + hotel.Image[0].url
 //               : "/no-image.jpg";  
 
 //           return (
@@ -137,14 +137,14 @@ export default async function TripPage({ params }) {
         {hotels.map((hotel) => {
           const imgUrl =
             hotel.Image?.length > 0
-              ? "http://localhost:1337" + hotel.Image[0].url
+              ? "" + hotel.Image[0].url
               : "/no-image.jpg";  
 
           return (
             <Link href={`/hotels/${hotel.slug}`} key={hotel.id}>
               <div className="bg-white shadow-md rounded-lg p-4 cursor-pointer hover:shadow-xl transition">
                 <img
-                  src={imgUrl}
+                  src={'http://56.228.1.142:1337' + imgUrl}
                   alt={hotel.Name}
                   className="rounded-lg mb-4 h-40 w-full object-cover"
                 />

@@ -5,7 +5,7 @@
   
 //   // ✅ Fetch trains with images
 //   const res = await fetch(
-//     `http://localhost:1337/api/trains?populate=Image`,
+//     `http://56.228.1.142:1337/api/trains?populate=Image`,
 //     { cache: "no-store" }
 //   );
 
@@ -31,7 +31,7 @@
    
     
 //   const imgUrl = firstImage
-//     ? `http://localhost:1337${firstImage}`
+//     ? `http://56.228.1.142:1337${firstImage}`
 //     : "/placeholder.jpg";
 
 //   return (
@@ -142,7 +142,7 @@ export default async function SingleTrainPage({ params }) {
           'Accept': 'application/json',
         }
       }
-    );
+    );     
 
     if (!res.ok) {
       console.error(`Failed to fetch trains: ${res.status}`);
@@ -171,7 +171,7 @@ export default async function SingleTrainPage({ params }) {
             ← Back to Trains
           </Link>
           <h1 className="text-center mt-10 text-2xl">
-            Train Not Found
+            Train Not Found   
           </h1>
         </div>
       );
@@ -186,7 +186,7 @@ export default async function SingleTrainPage({ params }) {
       null;
 
     const imgUrl = firstImage
-      ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337'}${firstImage}`
+      ? `${process.env.NEXT_PUBLIC_API_URL || 'http://56.228.1.142:1337'}${firstImage}`
       : "/placeholder.jpg";
 
   return (

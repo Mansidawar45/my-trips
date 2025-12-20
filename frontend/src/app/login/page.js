@@ -9,7 +9,7 @@
 //   async function handleLogin(e) {
 //     e.preventDefault();
 
-//     const res = await fetch("http://localhost:1337/api/auth/login", {
+//     const res = await fetch("http://56.228.1.142:1337/api/auth/login", {
 //       method: "POST",
 //       headers: {
 //         "Content-Type": "application/json",
@@ -61,7 +61,7 @@ export default function LoginPage() {
   async function handleLogin(e) {
     e.preventDefault();
 
-    const res = await fetch("http://localhost:1337/api/auth/local", {
+    const res = await fetch("http://56.228.1.142:1337/api/auth/local", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -3,7 +3,7 @@
 // import Link from "next/link";
 
 // async function getTrains() {
-//   const res = await fetch("http://localhost:1337/api/trains?populate=*", {
+//   const res = await fetch("http://56.228.1.142:1337/api/trains?populate=*", {
 //     next: { revalidate: 0 },
 //   });
 //   const data = await res.json();
@@ -22,7 +22,7 @@
 //       {trains.map((train) => {
 //         const imgUrl =
 //           train.attributes.image?.data?.attributes?.url
-//             ? `http://localhost:1337${train.attributes.image.data.attributes.url}`
+//             ? `http://56.228.1.142:1337${train.attributes.image.data.attributes.url}`
 //             : "/placeholder.jpg";
 
 //         return (

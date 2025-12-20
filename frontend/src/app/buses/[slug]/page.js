@@ -3,7 +3,7 @@
 // async function getSingleBus(slug) {
 //   try {
 //     const res = await fetch(
-//       `http://localhost:1337/api/buses?filters[slug][$eq]=${slug}&populate=*`,
+//       `http://56.228.1.142:1337/api/buses?filters[slug][$eq]=${slug}&populate=*`,
 //       { cache: "no-store" }
 //     );
 
@@ -54,7 +54,7 @@
 //   // Image handling (safe)
 //   const imgUrl =
 //     b?.Image?.length > 0
-//       ? `http://localhost:1337${b.Image[0].url}`
+//       ? `http://56.228.1.142:1337${b.Image[0].url}`
 //       : "/no-image.jpg";
 
 //   return (
@@ -194,7 +194,7 @@
 // export async function generateStaticParams() {
 //   try {
 //     const res = await fetch(
-//       `${process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337"}/api/buses?fields=slug`,
+//       `${process.env.NEXT_PUBLIC_STRAPI_URL || "http://56.228.1.142:1337"}/api/buses?fields=slug`,
 //       { cache: "force-cache" } // IMPORTANT for output: export
 //     );
 
@@ -220,7 +220,7 @@
 // async function getSingleBus(slug) {
 //   try {
 //     const res = await fetch(
-//       `${process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337"}/api/buses?filters[slug][$eq]=${slug}&populate=*`,
+//       `${process.env.NEXT_PUBLIC_STRAPI_URL || "http://56.228.1.142:1337"}/api/buses?filters[slug][$eq]=${slug}&populate=*`,
 //       { cache: "force-cache" }
 //     );
 
@@ -254,7 +254,7 @@
 
 //   const imgUrl =
 //     b?.Image?.data?.[0]?.attributes?.url
-//       ? `${process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337"}${b.Image.data[0].attributes.url}`
+//       ? `${process.env.NEXT_PUBLIC_STRAPI_URL || "http://56.228.1.142:1337"}${b.Image.data[0].attributes.url}`
 //       : "/no-image.jpg";
 
 //   return (

@@ -6,7 +6,7 @@ export default function DestinationCard({ destination }) {
 
   // ✅ Correct image path
   const imgUrl = coverimage?.url
-    ? `http://localhost:1337${coverimage.url}`
+    ? `http://56.228.1.142:1337${coverimage.url}`
     : "";
 
   return (
